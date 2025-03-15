@@ -12,7 +12,7 @@ vector_store = VectorStore()
 
 @app.route('/ask', methods=['POST'])
 def ask_question():
-    """RAG问答接口"""
+    """支持问答和翻译的接口"""
     data = request.get_json()
     if not data or 'query' not in data:
         return jsonify({"error": "Missing 'query' field"}), 400
@@ -20,22 +20,31 @@ def ask_question():
     try:
         query = data['query']
         top_k = int(data.get('top_k', 3))  # 默认获取3条相关结果
+        function = data.get('function', 'qa')  # 默认功能是问答
 
-        # 1. 向量检索
-        results = vector_store.similarity_search_with_score(
-            query=query,
-            k=top_k
-        )
+        if function == 'qa':
+            # 1. 向量检索
+            results = vector_store.similarity_search_with_score(
+                query=query,
+                k=top_k
+            )
 
-        # 如果没有检索到结果，返回提示
-        if not results:
-            return jsonify({"answer": "暂无相关数据，无法回答问题。"})
+            # 如果没有检索到结果，返回提示
+            if not results:
+                return jsonify({"answer": "暂无相关数据，无法回答问题。"})
 
-        # 2. 拼接上下文
-        context = "\n".join([doc.page_content for doc, _ in results])
+            # 2. 拼接上下文
+            context = "\n".join([doc.page_content for doc, _ in results])
 
-        # 3. 构造提示词
-        prompt = f"基于以下上下文回答问题：\n{context}\n\n问题：{query}\n答案："
+            # 3. 构造提示词
+            prompt = f"基于以下上下文回答问题：\n{context}\n\n问题：{query}\n答案："
+
+        elif function == 'translate':
+            # 翻译功能
+            prompt = f"请将以下内容翻译成中文：\n{query}\n翻译："
+
+        else:
+            return jsonify({"error": "Invalid function. Supported functions are 'qa' and 'translate'."}), 400
 
         # 4. 调用大模型
         response = spark.get_response(prompt)
@@ -44,7 +53,7 @@ def ask_question():
     except ValueError as e:
         return jsonify({"error": f"Invalid parameter: {str(e)}"}), 400
     except Exception as e:
-        app.logger.error(f"问答失败: {str(e)}")
+        app.logger.error(f"请求失败: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
 
