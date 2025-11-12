@@ -17,6 +17,7 @@ class SparkAPI:
         self.ws = None
         self.response = ""
         self.connected = False
+        self.chunks = []  # 用于存储流式响应的块
 
     def _create_url(self):
         """生成鉴权URL"""
@@ -46,7 +47,9 @@ class SparkAPI:
             return
 
         for text in data["payload"]["choices"]["text"]:
-            self.response += text['content']
+            chunk = text['content']
+            self.response += chunk
+            self.chunks.append(chunk)  # 存储每个响应块
 
         if data['payload']['choices']['status'] == 2:
             self.connected = False
@@ -70,6 +73,7 @@ class SparkAPI:
     def get_response(self, query: str) -> str:
         """获取大模型回复"""
         self.response = ""
+        self.chunks = []  # 清空块列表
 
         # 创建WebSocket连接
         ws = websocket.WebSocketApp(
@@ -99,3 +103,41 @@ class SparkAPI:
         # 等待响应完成
         ws_thread.join()
         return self.response
+
+    def stream_response(self, query: str):
+        """流式获取大模型回复"""
+        self.response = ""
+        self.chunks = []  # 清空块列表
+
+        # 创建WebSocket连接
+        ws = websocket.WebSocketApp(
+            self._create_url(),
+            on_message=self._on_message,
+            on_error=self._on_error,
+            on_close=self._on_close,
+            on_open=self._on_open
+        )
+
+        # 启动WebSocket线程
+        ws_thread = Thread(target=ws.run_forever, kwargs={"sslopt": {"cert_reqs": ssl.CERT_NONE}})
+        ws_thread.start()
+
+        # 等待连接建立
+        while not self.connected:
+            pass
+
+        # 发送请求数据
+        data = json.dumps({
+            "header": {"app_id": Config.SPARK_APPID, "uid": "1234"},
+            "parameter": {"chat": {"domain": Config.SPARK_DOMAIN, "temperature": 0.5}},
+            "payload": {"message": {"text": [{"role": "user", "content": query}]}}
+        })
+        ws.send(data)
+
+        # 流式返回响应块
+        while self.connected or self.chunks:
+            if self.chunks:
+                yield self.chunks.pop(0)
+
+        # 等待响应完成
+        ws_thread.join()

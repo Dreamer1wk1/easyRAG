@@ -1,3 +1,5 @@
+import os
+
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 from langchain_chroma import Chroma

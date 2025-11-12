@@ -1,13 +1,62 @@
+import atexit
+import json
+
 from flask import Flask, request, jsonify
 from langchain_core.documents import Document
 
+from nacos_service import NacosService
 from spark_api import SparkAPI
 from vector_store import VectorStore, process_text, delete_text_by_metadata
-from config import Config
 
 app = Flask(__name__)
 spark = SparkAPI()
 vector_store = VectorStore()
+
+# 初始化并注册Nacos服务
+nacos_service = NacosService()
+
+from flask import Response, stream_with_context, request
+
+
+@app.route('/ask-stream', methods=['POST'])  # 新建流式接口
+def stream_qa():
+    """流式问答接口"""
+    data = request.get_json()
+
+    # 参数校验（与原有逻辑一致）
+    if not data or 'query' not in data:
+        return jsonify({"error": "Missing 'query' field"}), 400
+
+    try:
+        query = data['query']
+        top_k = int(data.get('top_k', 3))
+        function = data.get('function', 'qa')
+
+        # 流式生成器核心逻辑
+        def generate():
+            # 向量检索部分保持同步
+            if function == 'qa':
+                results = vector_store.similarity_search_with_score(query=query, k=top_k)
+                if not results:
+                    yield "data: 暂无相关数据，无法回答问题。\n\n"
+                    return
+                context = "\n".join([doc.page_content for doc, _ in results])
+                prompt = f"基于以下上下文回答问题：\n{context}\n\n问题：{query}\n答案："
+            elif function == 'translate':
+                prompt = f"请将以下内容翻译成中文：\n{query}\n翻译："
+            else:
+                yield "data: {\"error\": \"Invalid function\"}\n\n"
+                return
+
+            # 调用支持流式输出的 LLM 接口（假设 spark.stream_response 返回生成器）
+            for chunk in spark.stream_response(prompt):  # 需确保该方法是流式API
+                yield f"data: {json.dumps({'answer': chunk})}\n\n"  # SSE 格式
+
+        return Response(stream_with_context(generate()), mimetype="text/event-stream")
+
+    except Exception as e:
+        app.logger.error(f"流式请求失败: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
 
 
 @app.route('/ask', methods=['POST'])
@@ -80,7 +129,6 @@ def add_text():
         return jsonify({"error": "Internal server error"}), 500
 
 
-
 # 如果要支持批量添加，可以修改/add接口：
 @app.route('/add_batch', methods=['POST'])
 def add_batch():
@@ -105,6 +153,7 @@ def add_batch():
     except Exception as e:
         app.logger.error(f"批量添加失败: {str(e)}")
         return jsonify({"error": "Batch add failed"}), 500
+
 
 @app.route('/search', methods=['POST'])
 def search_text():
@@ -156,4 +205,10 @@ def delete_text():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    nacos_service = NacosService()
+    if nacos_service.register():
+        app.logger.info("Nacos 注册成功，启动 Flask 服务...")
+    else:
+        app.logger.info("⚠️ Nacos 注册失败，仍然启动 Flask 服务...")
+    atexit.register(nacos_service.deregister)
+    app.run(host='0.0.0.0', port=5000)
