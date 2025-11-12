@@ -26,13 +26,14 @@ def delete_text_by_metadata(filter: dict):
     if results and "ids" in results:
         vector_store.delete(ids=results["ids"])
 
+
 def process_text(text: str, metadata: dict = None):
     """处理、切分并存储文本"""
     # 1. 初始化文本分割器
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=200,          # 每块长度（字符数）
-        chunk_overlap=50,        # 块之间的重叠量
-        separators=["\n\n", "\n", "。", " ；"," "]  # 切分优先级
+        chunk_size=200,  # 每块长度（字符数）
+        chunk_overlap=50,  # 块之间的重叠量
+        separators=["\n\n", "\n", "。", " ；", " "]  # 切分优先级
     )
 
     # 2. 将文本转换为 Document 并切分
