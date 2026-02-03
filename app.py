@@ -7,6 +7,7 @@ from langchain_core.documents import Document
 from nacos_service import NacosService
 from spark_api import SparkAPI
 from vector_store import VectorStore, process_text, delete_text_by_metadata
+from reranker_service import get_reranker_service
 
 app = Flask(__name__)
 spark = SparkAPI()
@@ -157,26 +158,29 @@ def add_batch():
 
 @app.route('/search', methods=['POST'])
 def search_text():
-    """相似文本搜索"""
+    """相似文本搜索（返回相关性分数）"""
     data = request.get_json()
     if not data or 'query' not in data:
         return jsonify({"error": "Missing 'query' field"}), 400
 
     try:
         top_k = int(data.get('top_k', 5))
-        # 执行搜索
-        results = vector_store.similarity_search(
+        
+        # 使用 relevance_scores 版本，直接返回相关性分数（0-1，越大越相关）
+        # 这比 similarity_search_with_score 更准确
+        results_with_scores = vector_store.similarity_search_with_relevance_scores(
             query=data['query'],
             k=top_k,
-            filter=data.get('filter')  # 支持元数据过滤
+            filter=data.get('filter'),  # 支持元数据过滤
+            score_threshold=0.0  # 不过滤，返回所有结果
         )
 
-        # 格式化结果
+        # 格式化结果，包含相关性分数（已经是 0-1 范围，越大越相关）
         formatted = [{
             "text": doc.page_content,
-            "metadata": doc.metadata,
-            # "score": doc.score  # 不支持得分
-        } for doc in results]
+            "metadata": {**doc.metadata, "score": round(score, 4)},
+            "score": round(score, 4)
+        } for doc, score in results_with_scores]
 
         return jsonify({"results": formatted})
 
@@ -204,6 +208,66 @@ def delete_text():
         return jsonify({"error": "Delete failed"}), 500
 
 
+@app.route('/rerank', methods=['POST'])
+def rerank():
+    """
+    重排序接口
+    使用 BGE-Reranker 模型对文档进行精排
+    
+    Request Body:
+    {
+        "query": "查询文本",
+        "documents": ["文档1", "文档2", ...],
+        "topK": 5  // 可选，默认5
+    }
+    
+    Response:
+    {
+        "results": [
+            {"index": 0, "score": 0.95, "text": "文档1"},
+            {"index": 2, "score": 0.87, "text": "文档3"},
+            ...
+        ]
+    }
+    """
+    data = request.get_json()
+    
+    # 参数校验
+    if not data:
+        return jsonify({"error": "Missing request body"}), 400
+    if 'query' not in data:
+        return jsonify({"error": "Missing 'query' field"}), 400
+    if 'documents' not in data:
+        return jsonify({"error": "Missing 'documents' field"}), 400
+    
+    try:
+        query = data['query']
+        documents = data['documents']
+        top_k = int(data.get('topK', 5))
+        
+        # 参数验证
+        if not isinstance(documents, list):
+            return jsonify({"error": "'documents' must be a list"}), 400
+        if not documents:
+            return jsonify({"results": []})
+        
+        # 调用 Reranker 服务
+        reranker_service = get_reranker_service()
+        results = reranker_service.rerank(
+            query=query,
+            documents=documents,
+            top_k=top_k
+        )
+        
+        return jsonify({"results": results})
+        
+    except ValueError as e:
+        return jsonify({"error": f"Invalid parameter: {str(e)}"}), 400
+    except Exception as e:
+        app.logger.error(f"重排序失败: {str(e)}")
+        return jsonify({"error": "Rerank failed", "detail": str(e)}), 500
+
+# 用.\.venv\Scripts\python.exe app.py启动
 if __name__ == '__main__':
     nacos_service = NacosService()
     if nacos_service.register():

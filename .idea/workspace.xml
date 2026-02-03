@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2b214bf-4b66-4f57-99b2-1afc9ec85fab" name="Changes" comment="feat: 向量存储+微服务调用测试完成" />
+    <list default="true" id="c2b214bf-4b66-4f57-99b2-1afc9ec85fab" name="Changes" comment="feat: 向量存储+微服务调用测试完成">
+      <change afterPath="$PROJECT_DIR$/reranker_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/text_splitter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/easyRAG.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/easyRAG.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comment_vectors/chroma.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/chroma.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/data_level0.bin" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/data_level0.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/header.bin" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/header.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/length.bin" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/length.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/nacos_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/nacos_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/spark_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vector_store.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_store.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +71,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2uHyYuCf3Lux4tNAtzmWIphJT6P" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -64,10 +82,14 @@
   &quot;keyToString&quot;: {
     &quot;Flask server.Flask (app.py).executor&quot;: &quot;Run&quot;,
     &quot;Flask server.easyRAG.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
     &quot;Python.sparkAPI.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dreamer/PycharmProjects/easyRAG&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -77,7 +99,31 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Flask server.Flask (app.py)">
+  <component name="RunManager" selected="Flask server.easyRAG">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="easyRAG" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="sparkAPI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="easyRAG" />
       <option name="ENV_FILES" value="" />
@@ -92,6 +138,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sparkAPI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -114,6 +161,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
@@ -130,11 +178,13 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.app" />
         <item itemvalue="Flask server.Flask (app.py)" />
         <item itemvalue="Python.sparkAPI" />
       </list>
@@ -143,8 +193,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.25659.43" />
-        <option value="bundled-python-sdk-181015f7ab06-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.25659.43" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-PY-253.30387.127" />
+        <option value="bundled-python-sdk-3944b0c99280-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.30387.127" />
       </set>
     </attachedChunks>
   </component>
@@ -177,6 +227,11 @@
       <workItem from="1764494182296" duration="1317000" />
       <workItem from="1765099856795" duration="42000" />
       <workItem from="1769934408292" duration="39000" />
+      <workItem from="1770012802161" duration="3143000" />
+      <workItem from="1770016546205" duration="7823000" />
+      <workItem from="1770098074995" duration="4128000" />
+      <workItem from="1770104995995" duration="1190000" />
+      <workItem from="1770111453414" duration="556000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 实现基本功能">
       <option name="closed" value="true" />
@@ -246,8 +301,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="feat: 向量存储+微服务调用测试完成" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/easyRAG$easyRAG.coverage" NAME="easyRAG Coverage Results" MODIFIED="1741935855343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/easyRAG$sparkAPI.coverage" NAME="sparkAPI Coverage Results" MODIFIED="1741945837565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/easyRAG$app.coverage" NAME="app Coverage Results" MODIFIED="1770012971985" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/easyRAG$easyRAG.coverage" NAME="easyRAG Coverage Results" MODIFIED="1770023945333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/easyRAG$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1763214052743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/easyRAG$sparkAPI.coverage" NAME="sparkAPI Coverage Results" MODIFIED="1741945837565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

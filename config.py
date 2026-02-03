@@ -13,13 +13,23 @@ class Config:
     SPARK_DOMAIN = "4.0Ultra"
 
     # 向量数据库配置
-    EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
-    VECTOR_DIR = "./comment_vectors"
+    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-zh-v1.5")
+    VECTOR_DIR = os.getenv("VECTOR_DIR", "./comment_vectors")
 
     CHROMA_HOST = os.getenv("CHROMA_HOST", "localhost")
     CHROMA_PORT = int(os.getenv("CHROMA_PORT", "8000"))
     CHROMA_USE_HTTPS = os.getenv("CHROMA_USE_HTTPS", "False").lower() == "true"
     CHROMA_AUTH = os.getenv("CHROMA_AUTH", "")
+
+    # 文本分块配置
+    CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "500"))           # 每块最大字符数（约 250 汉字）
+    CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "100"))     # 块之间的重叠字符数
+    CHUNK_STRATEGY = os.getenv("CHUNK_STRATEGY", "char")       # 分块策略: char/semantic/hybrid
+    MIN_CHUNK_LENGTH = int(os.getenv("MIN_CHUNK_LENGTH", "300"))  # 低于此长度不分块
+    
+    # Reranker 配置
+    RERANKER_MODEL = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
+    RERANKER_USE_FP16 = os.getenv("RERANKER_USE_FP16", "True").lower() == "true"
 
     # Nacos配置
     NACOS_SERVER_ADDR = os.getenv("NACOS_SERVER_ADDR", "127.0.0.1:8848")
