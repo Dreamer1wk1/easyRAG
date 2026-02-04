@@ -166,21 +166,26 @@ def search_text():
     try:
         top_k = int(data.get('top_k', 5))
         
-        # 使用 relevance_scores 版本，直接返回相关性分数（0-1，越大越相关）
-        # 这比 similarity_search_with_score 更准确
-        results_with_scores = vector_store.similarity_search_with_relevance_scores(
+        # 使用 similarity_search_with_score，返回 (doc, distance) 对
+        # Chroma 默认使用 L2 距离，距离越小越相似
+        results_with_scores = vector_store.similarity_search_with_score(
             query=data['query'],
             k=top_k,
-            filter=data.get('filter'),  # 支持元数据过滤
-            score_threshold=0.0  # 不过滤，返回所有结果
+            filter=data.get('filter')  # 支持元数据过滤
         )
 
-        # 格式化结果，包含相关性分数（已经是 0-1 范围，越大越相关）
-        formatted = [{
-            "text": doc.page_content,
-            "metadata": {**doc.metadata, "score": round(score, 4)},
-            "score": round(score, 4)
-        } for doc, score in results_with_scores]
+        # 将距离转换为相关性分数 (0-1，越大越相关)
+        # 使用 max(0, 1 - distance/2) 确保分数在 0-1 范围
+        # L2 距离通常在 0-2 之间（归一化向量的情况下）
+        formatted = []
+        for doc, distance in results_with_scores:
+            # 距离转相关性：distance=0 -> score=1, distance=2 -> score=0
+            score = max(0.0, min(1.0, 1.0 - distance / 2.0))
+            formatted.append({
+                "text": doc.page_content,
+                "metadata": {**doc.metadata, "score": round(score, 4)},
+                "score": round(score, 4)
+            })
 
         return jsonify({"results": formatted})
 
