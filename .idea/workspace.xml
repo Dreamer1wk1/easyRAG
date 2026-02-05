@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2b214bf-4b66-4f57-99b2-1afc9ec85fab" name="Changes" comment="fix: 分数为负">
+    <list default="true" id="c2b214bf-4b66-4f57-99b2-1afc9ec85fab" name="Changes" comment="doc: 数据更新">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/comment_vectors/chroma.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/chroma.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/data_level0.bin" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/data_level0.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/length.bin" beforeDir="false" afterPath="$PROJECT_DIR$/comment_vectors/d8bc3d0f-1183-4e64-bc70-bbdc8b2b7ba3/length.bin" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +220,7 @@
       <workItem from="1770104995995" duration="1190000" />
       <workItem from="1770111453414" duration="756000" />
       <workItem from="1770175314126" duration="3618000" />
-      <workItem from="1770196984152" duration="5040000" />
+      <workItem from="1770196984152" duration="11199000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 实现基本功能">
       <option name="closed" value="true" />
@@ -286,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770200599372</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="doc: 数据更新">
+      <option name="closed" value="true" />
+      <created>1770278517438</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1770278517438</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +321,8 @@
     <MESSAGE value="feat: 向量存储+微服务调用测试完成" />
     <MESSAGE value="feat: 重排序" />
     <MESSAGE value="fix: 分数为负" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 分数为负" />
+    <MESSAGE value="doc: 数据更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="doc: 数据更新" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/easyRAG$app.coverage" NAME="app Coverage Results" MODIFIED="1770012971985" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -182,7 +182,7 @@ def search_text():
             # 距离转相关性：distance=0 -> score=1, distance=2 -> score=0
             score = max(0.0, min(1.0, 1.0 - distance / 2.0))
             formatted.append({
-                "text": doc.page_content,
+            "text": doc.page_content,
                 "metadata": {**doc.metadata, "score": round(score, 4)},
                 "score": round(score, 4)
             })
