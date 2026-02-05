@@ -220,7 +220,7 @@
       <workItem from="1770104995995" duration="1190000" />
       <workItem from="1770111453414" duration="756000" />
       <workItem from="1770175314126" duration="3618000" />
-      <workItem from="1770196984152" duration="1396000" />
+      <workItem from="1770196984152" duration="5040000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 实现基本功能">
       <option name="closed" value="true" />
@@ -278,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770192105361</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix: 分数为负">
+      <option name="closed" value="true" />
+      <created>1770200599372</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1770200599372</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
